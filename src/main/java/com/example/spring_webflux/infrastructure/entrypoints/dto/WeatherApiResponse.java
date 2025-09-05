@@ -9,6 +9,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class WeatherApiResponse {
 
     private LocationDto location;
@@ -18,26 +19,23 @@ public class WeatherApiResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Getter
     @Setter
-    @NoArgsConstructor
     public static class LocationDto {
 
         @JsonProperty("name")
         private String name;
-
         @JsonProperty("region")
         private String region;
-
         @JsonProperty("country")
         private String country;
+
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Getter
     @Setter
     public static class CurrentWeatherDto {
-
         @JsonProperty("temp_c")
-        private String temperatureCelsius;
+        private Double temperatureCelsius;
 
         @JsonProperty("condition")
         private ConditionDto condition;
@@ -46,7 +44,7 @@ public class WeatherApiResponse {
         private Double windSpeedKph;
 
         @JsonProperty("wind_dir")
-        private Double windDirectionKph;
+        private String windDirection;
 
         @JsonProperty("vis_km")
         private Double visibilityKm;

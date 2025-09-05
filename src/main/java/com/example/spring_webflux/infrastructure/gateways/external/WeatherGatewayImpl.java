@@ -1,9 +1,10 @@
-package com.example.spring_webflux.infrastructure.gateways.adapter;
+package com.example.spring_webflux.infrastructure.gateways.external;
 
 import com.example.spring_webflux.domain.entities.model.Weather;
 import com.example.spring_webflux.domain.entities.port.WeatherGateway;
 import com.example.spring_webflux.infrastructure.entrypoints.dto.WeatherApiResponse;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,8 +15,9 @@ import java.time.Duration;
 import java.util.Map;
 
 @Service
-@Slf4j
 public class WeatherGatewayImpl implements WeatherGateway {
+
+    private static final Logger logger = LoggerFactory.getLogger(WeatherGatewayImpl.class);
 
     private final WebClient webClient;
     private final String apiKey;
@@ -29,8 +31,9 @@ public class WeatherGatewayImpl implements WeatherGateway {
     );
 
     public WeatherGatewayImpl(WebClient.Builder webClientBuilder,
-                              @Value("${WEATHER_API_KEY:demo-key}") String apiKey,
-                              @Value("${WEATHER_API_BASE:http://api.weatherapi.com/v1}") String baseUrl) {
+                               @Value("${weather.api.key}") String apiKey,
+                               @Value("${weather.api.baseUrl}") String baseUrl) {
+
         this.webClient = webClientBuilder
                 .baseUrl(baseUrl)
                 .build();
@@ -44,36 +47,37 @@ public class WeatherGatewayImpl implements WeatherGateway {
         String city = AIRPORT_TO_CITY.getOrDefault(airportCode.toUpperCase(), airportCode);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                    .path("/current.json")
-                    .queryParam("key", apiKey)
-                    .queryParam("q", city)
-                    .queryParam("api", "no")
-                    .build())
+                        .path("/current.json")
+                        .queryParam("key", apiKey)
+                        .queryParam("q", city)
+                        .queryParam("aqi", "no")
+                        .build())
                 .retrieve()
                 .bodyToMono(WeatherApiResponse.class)
-                .map(weatherApiResponse -> mapToWeather(weatherApiResponse, airportCode))
+                .map(response -> mapToWeather(response, airportCode))
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .onErrorResume(throwable -> {
-                    log.error("Failed to fetch weather for airport: {}. Using fallback data Error: {}", airportCode, throwable.getMessage());
+                    logger.error("Failed to fetch weather for airport: {}. Using fallback data Error: {}", airportCode,
+                            throwable.getMessage());
                     return Mono.error(throwable);
                 })
-                .doOnNext(weatherResponse -> {log.info("successfully fetched weather for airport: {}", airportCode);})
-                .timeout(Duration.ofSeconds(18));
+                .doOnNext(weatherResponse -> { logger.info("Successfully fetched weather for airport: {}", airportCode); })
+                .timeout(Duration.ofSeconds(10));
     }
 
-    private Weather mapToWeather (WeatherApiResponse response, String airportCode) {
+    private Weather mapToWeather(WeatherApiResponse response, String airportCode) {
 
         WeatherApiResponse.CurrentWeatherDto current = response.getCurrent();
         String condition = current.getCondition() != null ? current.getCondition().getText(): "Unknown";
 
         return new Weather(
                 airportCode,
-                condition.toUpperCase(),
                 condition,
                 current.getTemperatureCelsius(),
                 current.getWindSpeedKph(),
-                current.getWindDirectionKph(),
-                current.getVisibilityKm()
+                current.getWindDirection(),
+                current.getVisibilityKm(),
+                condition
         );
     }
 

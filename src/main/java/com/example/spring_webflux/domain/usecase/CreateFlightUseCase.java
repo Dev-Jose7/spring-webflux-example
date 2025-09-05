@@ -39,6 +39,10 @@ public class CreateFlightUseCase {
                     boolean departureWeatherSafe = tuple.getT1();
                     boolean arrivalWeatherSafe = tuple.getT2();
 
+                    if (!departureWeatherSafe || !arrivalWeatherSafe) {
+                        return Mono.error(new RuntimeException("Weather conditions are not satisfied."));
+                    }
+
                     return Mono.empty();
                 });
     }

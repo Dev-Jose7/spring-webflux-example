@@ -1,8 +1,8 @@
-package com.example.spring_webflux.infrastructure.gateways.mapper;
+package com.example.spring_webflux.infrastructure.gateways.persistence.mapper;
 
 import com.example.spring_webflux.domain.entities.model.Flight;
 import com.example.spring_webflux.domain.entities.model.enums.FlightStatus;
-import com.example.spring_webflux.infrastructure.gateways.entity.FlightEntity;
+import com.example.spring_webflux.infrastructure.gateways.persistence.entity.FlightEntity;
 import org.springframework.stereotype.Component;
 
 @Component

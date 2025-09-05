@@ -1,4 +1,4 @@
-package com.example.spring_webflux.infrastructure.gateways.entity;
+package com.example.spring_webflux.infrastructure.gateways.persistence.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

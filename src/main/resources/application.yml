@@ -12,6 +12,11 @@ spring:
       enabled: true
       path: /h2-console
 
+#weather:
+#  api:
+#    key: ${WEATHER_API_KEY}
+#    baseUrl: ${WEATHER_API_BASE_URL:http://api.weatherapi.com/v1}
+
 weather:
   api:
     key: ${WEATHER_API_KEY:demo-key}

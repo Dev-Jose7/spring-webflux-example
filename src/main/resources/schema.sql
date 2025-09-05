@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS flights (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    flight_number VARCHAR(10) NOT NULL UNIQUE,
+    airline VARCHAR(100) NOT NULL,
+    departure_airport VARCHAR(3) NOT NULL,
+    arrival_airport VARCHAR(3) NOT NULL,
+    departure_time TIMESTAMP NOT NULL,
+    arrival_time TIMESTAMP NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'SCHEDULED',
+    aircraft_type VARCHAR(50) NOT NULL,
+    capacity INTEGER NOT NULL,
+    booked_seats INTEGER NOT NULL DEFAULT 0,
+    price DECIMAL(10,2) NOT NULL,
+    gate VARCHAR(10),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

@@ -7,9 +7,9 @@ import org.springframework.context.annotation.FilterType;
 @Configuration
 @ComponentScan(basePackages = {
         "com.example.spring_webflux.domain.usecase",
-        "com.example.spring_webflux.gateways.repository",
-        "com.example.spring_webflux.infrastructure.gateways.mapper",
-        "com.example.spring_webflux.infrastructure.entrypoints.controllers"
+        "com.example.spring_webflux.gateways",
+        "com.example.spring_webflux.infrastructure.persistence.gateways.mapper",
+        "com.example.spring_webflux.infrastructure.entrypoints.controller"
 },
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UseCase$")

@@ -1,9 +1,9 @@
-package com.example.spring_webflux.infrastructure.gateways.adapter;
+package com.example.spring_webflux.infrastructure.gateways.persistence.adapter;
 
 import com.example.spring_webflux.domain.entities.model.Flight;
 import com.example.spring_webflux.domain.entities.port.FlightGateway;
-import com.example.spring_webflux.infrastructure.gateways.mapper.FlightMapper;
-import com.example.spring_webflux.infrastructure.gateways.repository.FlightRepository;
+import com.example.spring_webflux.infrastructure.gateways.persistence.mapper.FlightMapper;
+import com.example.spring_webflux.infrastructure.gateways.persistence.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;

@@ -1,6 +1,6 @@
-package com.example.spring_webflux.infrastructure.gateways.repository;
+package com.example.spring_webflux.infrastructure.gateways.persistence.repository;
 
-import com.example.spring_webflux.infrastructure.gateways.entity.FlightEntity;
+import com.example.spring_webflux.infrastructure.gateways.persistence.entity.FlightEntity;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
